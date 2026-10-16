@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECE Lab - Interactive Engineering Workbench</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i data-lucide="cpu"></i>
+                <h2>ECE Lab</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" data-target="home" class="active"><i data-lucide="layout-dashboard"></i> Dashboard</a></li>
+                <li><a href="#" data-target="electronics"><i data-lucide="zap"></i> Electronics Toolkit</a></li>
+                <li><a href="#" data-target="logiclab"><i data-lucide="git-merge"></i> LogicLab</a></li>
+                <li><a href="#" data-target="signals"><i data-lucide="activity"></i> Signals & Systems</a></li>
+                <li><a href="#" data-target="workspace"><i data-lucide="folder-open"></i> My Workspace</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="top-bar">
+                <h1 id="page-title">Dashboard</h1>
+                <button id="theme-toggle" class="icon-btn">
+                    <i data-lucide="sun"></i>
+                </button>
+            </header>
+
+            <!-- Dashboard View -->
+            <section id="home" class="module-view active">
+                <div class="welcome-banner">
+                    <h2>Welcome to your Engineering Workbench</h2>
+                    <p>Select a module to begin designing, calculating, and simulating.</p>
+                </div>
+                <div class="card-grid">
+                    <div class="card nav-card" data-target="electronics">
+                        <i data-lucide="zap" class="card-icon"></i>
+                        <h3>Electronics Toolkit</h3>
+                        <p>Ohm's Law, Resistor Codes, and RC Circuits.</p>
+                    </div>
+                    <div class="card nav-card" data-target="logiclab">
+                        <i data-lucide="git-merge" class="card-icon"></i>
+                        <h3>LogicLab</h3>
+                        <p>Simulate logic gates, adders, and truth tables.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Electronics Toolkit View -->
+            <section id="electronics" class="module-view">
+                <div class="module-header">
+                    <h2>Electronics Toolkit</h2>
+                    <p>Enter any two known values to calculate the remaining ones.</p>
+                </div>
+                
+                <div class="tool-container">
+                    <!-- Ohm's Law -->
+                    <div class="tool-card">
+                        <h3>Ohm's Law & Power</h3>
+                        <div class="input-grid">
+                            <div class="input-group">
+                                <label for="ohm-v">Voltage (V)</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="ohm-v" placeholder="e.g. 12" step="any">
+                                    <span class="unit">Volts</span>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="ohm-i">Current (I)</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="ohm-i" placeholder="e.g. 2" step="any">
+                                    <span class="unit">Amps</span>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="ohm-r">Resistance (R)</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="ohm-r" placeholder="e.g. 6" step="any">
+                                    <span class="unit">Ohms</span>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="ohm-p">Power (P)</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="ohm-p" placeholder="e.g. 24" step="any">
+                                    <span class="unit">Watts</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button id="btn-calc-ohm" class="btn primary">Calculate</button>
+                            <button id="btn-reset-ohm" class="btn secondary">Reset</button>
+                        </div>
+                        <div id="ohm-error" class="error-msg" style="display: none;">Please enter exactly two values.</div>
+                        <div id="ohm-result" class="result-box" style="display: none;"></div>
+                    </div>
+
+                    <!-- Resistor Decoder -->
+                    <div class="tool-card" style="margin-top: 24px;">
+                        <h3>Resistor Color-Code Decoder</h3>
+                        <div class="band-toggle" style="margin-bottom: 20px;">
+                            <label class="radio-label">
+                                <input type="radio" name="band-type" value="4" checked> 4-Band Resistor
+                            </label>
+                            <label class="radio-label" style="margin-left: 16px;">
+                                <input type="radio" name="band-type" value="5"> 5-Band Resistor
+                            </label>
+                        </div>
+                        <div class="input-grid">
+                            <div class="input-group">
+                                <label for="band1">Band 1 (1st Digit)</label>
+                                <select id="band1" class="color-select"></select>
+                            </div>
+                            <div class="input-group">
+                                <label for="band2">Band 2 (2nd Digit)</label>
+                                <select id="band2" class="color-select"></select>
+                            </div>
+                            <div class="input-group" id="band3-container" style="display: none;">
+                                <label for="band3">Band 3 (3rd Digit)</label>
+                                <select id="band3" class="color-select"></select>
+                            </div>
+                            <div class="input-group">
+                                <label for="band-mult">Multiplier</label>
+                                <select id="band-mult" class="color-select"></select>
+                            </div>
+                            <div class="input-group">
+                                <label for="band-tol">Tolerance</label>
+                                <select id="band-tol" class="color-select"></select>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button id="btn-calc-resistor" class="btn primary">Calculate Resistance</button>
+                        </div>
+                        <div id="resistor-result" class="result-box hidden"></div>
+                    </div>
+
+                    <!-- RC Circuit Calculator -->
+                    <div class="tool-card" style="margin-top: 24px;">
+                        <h3>RC Circuit Calculator</h3>
+                        <div class="input-grid">
+                            <div class="input-group">
+                                <label for="rc-r">Resistance (R)</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="rc-r" placeholder="e.g. 10" step="any">
+                                    <select id="rc-r-unit" class="unit-select">
+                                        <option value="1">Ω</option>
+                                        <option value="1e3" selected>kΩ</option>
+                                        <option value="1e6">MΩ</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="rc-c">Capacitance (C)</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="rc-c" placeholder="e.g. 100" step="any">
+                                    <select id="rc-c-unit" class="unit-select">
+                                        <option value="1">F</option>
+                                        <option value="1e-3">mF</option>
+                                        <option value="1e-6" selected>µF</option>
+                                        <option value="1e-9">nF</option>
+                                        <option value="1e-12">pF</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="button-group">
+                            <button id="btn-calc-rc" class="btn primary">Calculate RC</button>
+                            <button id="btn-reset-rc" class="btn secondary">Reset</button>
+                        </div>
+                        <div id="rc-error" class="error-msg" style="display: none;">Please enter valid positive numbers for R and C.</div>
+                        <div id="rc-result" class="result-box" style="display: none;"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LogicLab View (Stage 3) -->
+            <section id="logiclab" class="module-view">
+                <div class="module-header">
+                    <h2>LogicLab Simulator</h2>
+                    <p>Simulate basic digital logic gates and generate their truth tables dynamically.</p>
+                </div>
+                
+                <div class="tool-container">
+                    <div class="tool-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 16px;">
+                            <h3>Interactive Logic Gates</h3>
+                            <select id="gate-selector" class="unit-select" style="border: 1px solid var(--border-color); border-radius: 6px; padding: 8px 16px;">
+                                <option value="AND">AND Gate</option>
+                                <option value="OR">OR Gate</option>
+                                <option value="NOT">NOT Gate</option>
+                                <option value="NAND">NAND Gate</option>
+                                <option value="NOR">NOR Gate</option>
+                                <option value="XOR">XOR Gate</option>
+                            </select>
+                        </div>
+
+                        <!-- Interactive Circuit Area -->
+                        <div class="logic-circuit">
+                            <div class="logic-inputs">
+                                <div class="logic-node">
+                                    <label>Input A</label>
+                                    <button class="logic-btn state-0" id="logic-in-a" data-state="0">0</button>
+                                </div>
+                                <div class="logic-node" id="node-in-b">
+                                    <label>Input B</label>
+                                    <button class="logic-btn state-0" id="logic-in-b" data-state="0">0</button>
+                                </div>
+                            </div>
+
+                            <div class="logic-gate-display">
+                                <div class="gate-shape" id="gate-shape-name">AND</div>
+                                <div class="gate-expr" id="gate-expr-text">Y = A · B</div>
+                            </div>
+
+                            <div class="logic-outputs">
+                                <div class="logic-node">
+                                    <label>Output Y</label>
+                                    <div class="logic-out-display state-0" id="logic-out-y">0</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Truth Table -->
+                        <div style="margin-top: 40px;">
+                            <h4 style="margin-bottom: 16px; color: var(--text-secondary);">Dynamic Truth Table</h4>
+                            <table class="truth-table" id="logic-truth-table">
+                                <!-- Generated by JS -->
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Placeholder Views -->
+            <section id="signals" class="module-view">
+                <h2>Signals & Systems</h2>
+                <p>Waveform generation will go here in Stage 5.</p>
+            </section>
+
+            <section id="workspace" class="module-view">
+                <h2>My Workspace</h2>
+                <p>Saved data and history will go here in Stage 4.</p>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
