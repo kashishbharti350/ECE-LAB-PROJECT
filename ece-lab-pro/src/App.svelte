@@ -1,65 +1,59 @@
-<script lang="ts">
-    import { Cpu, LayoutDashboard, GitMerge, Sun, Moon } from 'lucide-svelte';
+<script>
+    import { Settings, LayoutDashboard, Cpu, Calculator } from 'lucide-svelte';
     import LogicLab from './LogicLab.svelte';
+    import ElectronicsToolkit from './ElectronicsToolkit.svelte';
 
-    let activeTab = 'logiclab'; // Set default view
-    let isLightMode = false;
-
-    function toggleTheme() {
-        isLightMode = !isLightMode;
-        if (isLightMode) {
-            document.documentElement.setAttribute('data-theme', 'light');
-        } else {
-            document.documentElement.removeAttribute('data-theme');
-        }
-    }
+    let activeTab = 'dashboard';
 </script>
 
 <div class="app-container">
-    <!-- Sidebar Navigation -->
+    <!-- SIDEBAR NAVIGATION -->
     <nav class="sidebar">
-        <div class="logo">
-            <Cpu size={28} />
-            <h2>ECE Lab</h2>
+        <div class="brand">
+            <Cpu size={28} color="#38bdf8" />
+            <h1>ECE Lab Pro</h1>
         </div>
-        <ul class="nav-links">
-            <li>
-                <button class={activeTab === 'home' ? 'active' : ''} on:click={() => activeTab = 'home'}>
-                    <LayoutDashboard size={20} /> Dashboard
-                </button>
-            </li>
-            <li>
-                <button class={activeTab === 'logiclab' ? 'active' : ''} on:click={() => activeTab = 'logiclab'}>
-                    <GitMerge size={20} /> LogicLab Pro
-                </button>
-            </li>
-        </ul>
+        
+        <div class="nav-links">
+            <button class:active={activeTab === 'dashboard'} on:click={() => activeTab = 'dashboard'}>
+                <LayoutDashboard size={20} /> Dashboard
+            </button>
+            <button class:active={activeTab === 'toolkit'} on:click={() => activeTab = 'toolkit'}>
+                <Calculator size={20} /> Electronics Toolkit
+            </button>
+            <button class:active={activeTab === 'logiclab'} on:click={() => activeTab = 'logiclab'}>
+                <Cpu size={20} /> LogicLab Pro
+            </button>
+        </div>
     </nav>
 
-    <!-- Main Content Area -->
-    <main class="main-content">
-        <header class="top-bar">
-            <h1>{activeTab === 'home' ? 'Dashboard' : 'LogicLab Pro'}</h1>
-            <button class="icon-btn" on:click={toggleTheme}>
-                {#if isLightMode}
-                    <Moon size={20} />
-                {:else}
-                    <Sun size={20} />
-                {/if}
-            </button>
-        </header>
-
-        <!-- Dynamic Module Routing -->
-        <section class="module-view">
-            {#if activeTab === 'home'}
-                <div class="welcome-banner">
-                    <h2>Welcome to the Pro Workbench</h2>
-                    <p>Powered by Svelte, TypeScript, and SvelteFlow.</p>
+    <!-- MAIN CONTENT AREA -->
+    <main class="content">
+        {#if activeTab === 'dashboard'}
+            <div class="module-header">
+                <h2>Welcome to the Workbench</h2>
+                <p>Your digital engineering environment is ready.</p>
+            </div>
+            
+            <!-- Dashboard Welcome Cards -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 20px;">
+                <div style="background: #1e293b; padding: 20px; border-radius: 12px; border: 1px solid #334155;">
+                    <h3 style="color: #38bdf8; margin-top:0;">⚡ Rapid Calculations</h3>
+                    <p style="color: #cbd5e1; line-height: 1.6;">Jump into the Electronics Toolkit to solve Ohm's Law, calculate Power dissipation, and tune RC filters instantly without hunting for formulas.</p>
+                    <button style="margin-top: 15px; padding: 8px 16px; background: #38bdf8; color: #0f172a; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;" on:click={() => activeTab = 'toolkit'}>Open Toolkit</button>
                 </div>
-            {:else if activeTab === 'logiclab'}
-                <!-- This injects your new drag-and-drop component! -->
-                <LogicLab />
-            {/if}
-        </section>
+                <div style="background: #1e293b; padding: 20px; border-radius: 12px; border: 1px solid #334155;">
+                    <h3 style="color: #10b981; margin-top:0;">🧩 Logic Prototyping</h3>
+                    <p style="color: #cbd5e1; line-height: 1.6;">Use LogicLab Pro to visually drag, drop, and connect logic gates. Prototype your digital circuits in a modern SvelteFlow engine before wiring physical ICs.</p>
+                    <button style="margin-top: 15px; padding: 8px 16px; background: #10b981; color: #0f172a; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;" on:click={() => activeTab = 'logiclab'}>Open LogicLab</button>
+                </div>
+            </div>
+
+        {:else if activeTab === 'toolkit'}
+            <ElectronicsToolkit />
+            
+        {:else if activeTab === 'logiclab'}
+            <LogicLab />
+        {/if}
     </main>
 </div>
