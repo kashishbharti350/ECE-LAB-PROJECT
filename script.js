@@ -157,5 +157,4 @@ btnInA.addEventListener('click', toggleInputState);
 btnInB.addEventListener('click', toggleInputState);
 gateSelector.addEventListener('change', updateGateUI);
 
-// Start LogicLab
 updateGateUI();
