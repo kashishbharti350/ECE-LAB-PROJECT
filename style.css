@@ -80,9 +80,6 @@ body { background-color: var(--bg-primary); color: var(--text-primary); transiti
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* ==========================================
-   LOGICLAB STYLES
-   ========================================== */
 .logic-circuit { display: flex; justify-content: space-between; align-items: center; background-color: var(--bg-primary); padding: 32px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 24px; }
 .logic-node { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 8px 0; }
 .logic-node label { font-size: 0.85rem; color: var(--text-secondary); font-weight: 600; }
